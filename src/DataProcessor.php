@@ -1,0 +1,234 @@
+<?php
+
+/**
+ * @copyright Copyright (c) Pavlo Matsura
+ * @link https://github.com/pobratym
+ *
+ *
+ *   HOW TO USE
+ * ==============
+ *
+ * The class works only with classes that extend abstract class `\Pobratym\EDMo\AbstractClass\Collection`
+ *
+ * ## To init entity collection instance
+ * // class `User` has to extend class `\Pobratym\EDMo\AbstractClass\Collection`
+ * $users = Grabber::init(User::class);
+ *
+ *
+ * ## Search entity
+ *
+ * // To get data without any condition
+ * 	$users->all()
+ * 		->orderBy(string)
+ * 		->groupBy(string)
+ * 		->limit(int, int)
+ * 		->extract();
+ *
+ * // To find users by simple conditions
+ * $users->find(['permission' => '10'])
+ * 		->orderBy(string)
+ * 		->groupBy(string)
+ * 		->limit(int, int)
+ * 		->extract(); // return users with `permission` = 10
+ *
+ * // To find users by complex condition
+ * $users->search('first_name != :first_name', [':first_name' => 'Sam'])
+ * 		->orderBy(string)
+ * 		->groupBy(string)
+ * 		->limit(int, int)
+ * 		->extract();  // return users with `first_name` != 'Sam'
+ *
+ * ## Delete entity
+ * $users->delete('id = :id', [':id' => 1]); // removes row with id = 1
+ *
+ * ## Add new entity
+ *
+ * // To add new entity data - can be used only for entities with single Primary key
+ * $new_user = $users->addNew();
+ *
+ * $new_user->first_name = 'John';
+ * $new_user->last_name = 'Smitt';
+ *
+ * $last_insert_id = $new_user->save(); // returns last_insert_id if table has autoincrement
+ *
+ * // Or you can use bulk data loading to add the data
+ * $last_insert_id = $users->addNew($user_id)
+ * 		->save([
+ * 			'name' => 'Mark',
+ * 		]);
+ *
+ * ## Update entity data
+ * $new_user = Grabber::init(static::class)
+ * 		->update('user_id = :id')
+ * 		->binds([':id' => $user_id]);
+ *
+ * $new_user->name = 'Mark';
+ *
+ * $new_user->save();
+ *
+ * // Or you can use bulk data loading to add the data
+ * Grabber::init(static::class)
+ * 		->update('user_id = :id')
+ * 		->binds([':id' => $user_id])
+ * 		->save([
+ * 			'name' => 'Mark',
+ * 		]);
+ *
+ */
+
+namespace Pobratym\EDMo;
+
+use Pobratym\EDMo\AbstractClass\MultiKeyModel;
+use Pobratym\EDMo\AbstractClass\Model;
+use InvalidArgumentException;
+use LogicException;
+
+/**
+ * Class DataProcessor
+ *
+ * @package Pobratym\EDMo
+ */
+class DataProcessor
+{
+	protected $columns = [
+		//'column_name' => 'string|50',
+	];
+	protected $joined_columns_list = [
+		//'column_name_1',
+		//'column_name_2',
+		//...
+	];
+	protected $db_connection = '';
+	protected $joined_tables = '';
+	protected $table_name = '';
+	protected $pk_column_name = null;
+
+	/**
+	 * @var static[]
+	 */
+	protected static $instance = [];
+
+	/**
+	 * @param string $model_class_name
+	 *
+	 * @return static
+	 */
+	public static function init(string $model_class_name)
+	{
+		if (isset(static::$instance[$model_class_name]) && static::$instance[$model_class_name] instanceof self) {
+			return static::$instance[$model_class_name];
+		}
+
+		/** @var MultiKeyModel $model_class_name */
+
+		$object = new static();
+
+		$parent = class_parents($model_class_name);
+
+		if (isset($parent[Model::class])) {
+			$model_config = $model_class_name::getModelConfig();
+		} elseif (isset($parent[MultiKeyModel::class])) {
+			$model_config = $model_class_name::getModelConfig();
+		} else {
+			throw new InvalidArgumentException('The passed class does not extend MultiKeyModel::class or Model::class');
+		}
+
+		if (!is_array($model_config) || empty($model_config)) {
+			throw new LogicException("Class {$model_class_name} was not implement correctly. It has to extends class `Pobratym\EDMo\AbstractClass\Collection`");
+		}
+
+		$object->columns = $model_config['columns'];
+		$object->joined_columns_list = $model_config['joined_columns_list'];
+		$object->db_connection = $model_config['db_connection'];
+		$object->joined_tables = $model_config['joined_tables'];
+		$object->table_name = $model_config['table_name'];
+		$object->pk_column_name = $model_config['pk_column_name'] ?? null;
+
+		return self::$instance[$model_class_name] = $object;
+	}
+
+	#region Object methods
+
+	/**
+	 * Returns all DB rows
+	 *
+	 * @return DataProcessor\AbstractSearch
+	 */
+	public function all()
+	{
+		return DataProcessor\AbstractSearch::init($this->joined_tables, $this->joined_columns_list, $this->db_connection);
+	}
+
+	/**
+	 * @param array $conditions
+	 * @param string $relation
+	 *
+	 * @return DataProcessor\Find
+	 */
+	public function find(array $conditions, string $relation = DB\Build::RELATION_AND)
+	{
+		foreach ($conditions as $column_name => $value) {
+			if (is_array($value) && !$value) {
+				throw new InvalidArgumentException('A SQL placeholder value can not be empty array');
+			}
+
+			if (isset($this->joined_columns_list[$column_name])) {
+				$conditions[$this->joined_columns_list[$column_name]] = $value;
+
+				unset($conditions[$column_name]);
+			}
+		}
+
+		return DataProcessor\Find::init($this->joined_tables, $this->joined_columns_list, $this->db_connection)
+			->find($conditions, $relation);
+	}
+
+	/**
+	 * @param string $where
+	 * @param array $binds
+	 *
+	 * @return DataProcessor\Search
+	 */
+	public function search(string $where, array $binds = [])
+	{
+		return DataProcessor\Search::init($this->joined_tables, $this->joined_columns_list, $this->db_connection)
+			->search($where, $binds);
+	}
+
+	/**
+	 * @return DataProcessor\AddNew
+	 */
+	public function addNew()
+	{
+		return DataProcessor\AddNew::init($this->table_name, $this->columns, $this->db_connection);
+	}
+
+	/**
+	 * @param $where
+	 *
+	 * @return DataProcessor\Update
+	 */
+	public function update($where)
+	{
+		return DataProcessor\Update::init($this->table_name, $this->columns, $this->db_connection, $this->pk_column_name)
+			->where($where);
+	}
+
+	/**
+	 * @param string $where
+	 * @param array $binds
+	 *
+	 * @return DataProcessor\Delete
+	 */
+	public function delete(string $where)
+	{
+		return DataProcessor\Delete::init($this->table_name, $this->columns, $this->db_connection, $this->pk_column_name)
+			->where($where);
+	}
+
+	#endregion
+
+	#region Is Condition methods
+
+	#endregion
+}

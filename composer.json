@@ -1,0 +1,26 @@
+{
+  "name": "pobratym/edmo",
+  "description": "EDMo - it is Entity Data Model (EDM) tool. No reflection or other extra things, which doesn't need to use in Live",
+  "version": "1.0.0",
+  "keywords": [],
+  "homepage": "https://github.com/pobratym/EDMo",
+  "authors": [
+    {
+      "name": "Pavlo Matsura",
+      "email": "webxid@ukr.net",
+      "homepage": "https://github.com/pobratym",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Pobratym\\EDMo\\": "src"
+    }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=8"
+  }
+}

@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\Validation;
+namespace WebXID\EDMo\Validation;
 
 /**
  * Class FloatRules
  *
- * @package Pobratym\EDMo\Validation
+ * @package WebXID\EDMo\Validation
  */
 class FloatRules extends AbstractClass\NumericAbstractRules
 {

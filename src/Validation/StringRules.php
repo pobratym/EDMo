@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\Validation;
 
-namespace Pobratym\EDMo\Validation;
-
-use Pobratym\EDMo\Validation\AbstractClass\StringAbstractRules;
+use WebXID\EDMo\Validation\AbstractClass\StringAbstractRules;
 
 /**
  * Class StringRules
  *
- * @package Pobratym\EDMo\Validation
+ * @package WebXID\EDMo\Validation
  */
 class StringRules extends StringAbstractRules
 {

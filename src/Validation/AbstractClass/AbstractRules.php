@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\Validation\AbstractClass;
+namespace WebXID\EDMo\Validation\AbstractClass;
 
 /**
  * Class AbstractRules
  *
- * @package Pobratym\EDMo\Validation\AbstractClass
+ * @package WebXID\EDMo\Validation\AbstractClass
  */
 abstract class AbstractRules
 {

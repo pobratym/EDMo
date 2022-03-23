@@ -7,14 +7,12 @@
   "authors": [
     {
       "name": "Pavlo Matsura",
-      "email": "webxid@ukr.net",
-      "homepage": "https://github.com/webxid",
-      "role": "Developer"
+      "email": "webxid@ukr.net"
     }
   ],
   "autoload": {
     "psr-4": {
-      "Pobratym\\EDMo\\": "src"
+      "WebXID\\EDMo\\": "src"
     }
   },
   "require": {

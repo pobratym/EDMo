@@ -2,8 +2,8 @@
 
 namespace Test\DataProcessor;
 
-use Pobratym\EDMo\AbstractClass\Model;
-use Pobratym\EDMo\Rules;
+use WebXID\EDMo\AbstractClass\Model;
+use WebXID\EDMo\Rules;
 
 /**
  * Class TempModel

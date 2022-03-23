@@ -1,15 +1,10 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo;
 
-namespace Pobratym\EDMo;
-
-use Pobratym\EDMo\Rules\Field;
+use WebXID\EDMo\Rules\Field;
 use InvalidArgumentException;
-use Pobratym\EDMo\AbstractClass\Collection;
+use WebXID\EDMo\AbstractClass\Collection;
 
 /**
  * Class Rules

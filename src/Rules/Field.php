@@ -1,23 +1,18 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\Rules;
 
-namespace Pobratym\EDMo\Rules;
-
-use Pobratym\EDMo\AbstractClass\Collection;
-use Pobratym\EDMo\AbstractClass\CollectionItem;
+use WebXID\EDMo\AbstractClass\Collection;
+use WebXID\EDMo\AbstractClass\CollectionItem;
 use Exception;
-use Pobratym\EDMo\Validation;
+use WebXID\EDMo\Validation;
 use InvalidArgumentException;
 use LogicException;
 
 /**
  * Class Field
  *
- * @package Pobratym\EDMo\Rules
+ * @package WebXID\EDMo\Rules
  *
  * @property string $field_name
  */

@@ -1,20 +1,15 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\Rules;
 
-namespace Pobratym\EDMo\Rules;
-
-use Pobratym\EDMo\AbstractClass\BasicDataContainer;
-use Pobratym\EDMo\Validation;
+use WebXID\EDMo\AbstractClass\BasicDataContainer;
+use WebXID\EDMo\Validation;
 use InvalidArgumentException;
 
 /**
  * Class Type
  *
- * @package Pobratym\EDMo\Rules
+ * @package WebXID\EDMo\Rules
  *
  * @property string $type
  * @property mixed $value

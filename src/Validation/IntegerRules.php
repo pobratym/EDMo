@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\Validation;
 
-namespace Pobratym\EDMo\Validation;
-
-use Pobratym\EDMo\Validation\AbstractClass\NumericAbstractRules;
+use WebXID\EDMo\Validation\AbstractClass\NumericAbstractRules;
 
 /**
  * Class IntegerRules
  *
- * @package Pobratym\EDMo\Validation
+ * @package WebXID\EDMo\Validation
  */
 class IntegerRules extends NumericAbstractRules
 {

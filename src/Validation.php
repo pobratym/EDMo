@@ -1,76 +1,20 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *
- *   HOW TO USE
- * ==============
- *
- * // Init class instance
- * $data = Validation::rules();
- * $test_value = 'some value';
- *
- *
- * ## Check value with string type
- *
- * // Custom string
- * $data->string($test_value, 'Wrong value type')
- * 		->required('String is required')
- * 		->minLen(mb_strlen($test_value), 'Invalid min len')
- * 		->maxLen(mb_strlen($test_value), 'Invalid max len')
- * 		->regexp('/[a-zA-Z ]/', 'Invalid regexp')
- * 		->equals($test_value, 'Invalid equals')
- * 		->notEquals('Hello world!', 'Invalid not equals')
- * 		->enumValues([$test_value], 'Invalid enum');
- *
- * // Check email value
- * $data->email($test_value, 'Invalid email');
- *
- * // Check IP address
- * $data->ipAddress($test_value, 'Invalid IP Address');
- *
- *
- * ## Check value with numeric type
- *
- * // Check integer value
- * $data->int($test_value, 'Wrong value type')
- * 		->required('Int is required')
- * 		->minLen(mb_strlen($test_value), 'Invalid min len')
- * 		->maxLen(mb_strlen($test_value), 'Invalid max len')
- * 		->minValue(100, 'Invalid min value')
- * 		->maxValue(200, 'Invalid max value')
- * 		->regexp('/[a-zA-Z ]/', 'Invalid regexp')
- * 		->equals($test_value, 'Invalid equals')
- * 		->notEquals('Hello world!', 'Invalid not equals')
- * 		->enumValues([$test_value], 'Invalid enum');
- *
- * // Check float value
- * $data->float($test_value, 'Wrong value type');
- *
- * ## Check is value valid
- * if (!$data->isValid()) {
- * 		print_r($data->getError()); // Print all error messages
- * }
- *
- */
+namespace WebXID\EDMo;
 
-namespace Pobratym\EDMo;
-
-use Pobratym\EDMo\Validation\AbstractClass\AbstractRules;
-use Pobratym\EDMo\Validation\ArrayRules;
-use Pobratym\EDMo\Validation\BoolRules;
-use Pobratym\EDMo\Validation\FloatRules;
-use Pobratym\EDMo\Validation\IntegerRules;
-use Pobratym\EDMo\Validation\StringRules;
+use WebXID\EDMo\Validation\AbstractClass\AbstractRules;
+use WebXID\EDMo\Validation\ArrayRules;
+use WebXID\EDMo\Validation\BoolRules;
+use WebXID\EDMo\Validation\FloatRules;
+use WebXID\EDMo\Validation\IntegerRules;
+use WebXID\EDMo\Validation\StringRules;
 use InvalidArgumentException;
-use Pobratym\EDMo\Validation\Error;
+use WebXID\EDMo\Validation\Error;
 
 /**
  * Class Validation
  *
- * @package Pobratym\EDMo
+ * @package WebXID\EDMo
  */
 class Validation
 {

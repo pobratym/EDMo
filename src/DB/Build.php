@@ -1,87 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *   HOW TO USE
- * ==============
- *
- * ## To get DB rows with conditions, passed to `where()` method
- * $rows = DB\Build::select([
- * 			'column_1',
- * 			'column_2',
- * 		])
- * 		->from('table_name')
- * 		->where(' column_1 = :column_1 ')
- * 		->binds([':column_1' => 123]) // pass here `where` condition value placeholders
- * 		->groupBy('column_1')
- * 		->having('column_2')
- * 		->orderBy('column_3', 'DESC')
- * 		->limit(5, 3)
- * 		->execute();
- *
- * // This query is equals next string:
- * '	SELECT column_1, column_2
- * 		FROM table_name
- * 		WHERE column_1 = :column_1
- * 		GROUP BY column_1
- * 		HAVING column_2
- * 		ORDER BY column_3 DESC
- * 		LIMIT 5, 15
- * ';
- *
- *
- * ## To get DB rows with conditions, passed to `find()` method
- * $rows = DB\Build::select([
- * 			'column_1',
- * 			'column_2',
- * 		])
- * 		->from('table_name')
- * 		->find(['column_name' => 'column_value']) // You don't have to use method `binds()` - logic will do it automatically
- * 		->groupBy('column_1')
- * 		->having('column_2')
- * 		->orderBy('column_3', 'ASC')
- * 		->limit(5, 2)
- * 		->execute();
- *
- * // This query is equals next string:
- * '	SELECT column_1, column_2
- * 		FROM table_name
- * 		WHERE column_name = :column_name
- * 		GROUP BY column_1
- * 		HAVING column_2
- * 		ORDER BY column_3 ASC
- * 		LIMIT 5, 10
- * ';
- *
- *
- * ## Using `where()` and `find()` in single query
- * $rows = DB\Build::select([
- * 			'colunm_1',
- * 			'column_2',
- * 		])
- * 		->from('table_name')
- * 		->where(' column_3 = 1 ')
- * 		->find(['column_4' => 123])
- * 		->execute();
- *
- * // This query is equals next string:
- * '	SELECT column_1, column_2
- * 		FROM table_name
- * 		WHERE (column_3 = 1) AND (column_4 = 123)
- * ';
- *
- */
+namespace WebXID\EDMo\DB;
 
-namespace Pobratym\EDMo\DB;
-
-use Pobratym\EDMo\DB;
+use WebXID\EDMo\DB;
 
 /**
  * Class Build
  *
- * @package Pobratym\EDMo\DB
+ * @package WebXID\EDMo\DB
  */
 class Build
 {

@@ -1,92 +1,16 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *
- *   HOW TO USE
- * ==============
- *
- * The class works only with classes that extend abstract class `\Pobratym\EDMo\AbstractClass\Collection`
- *
- * ## To init entity collection instance
- * // class `User` has to extend class `\Pobratym\EDMo\AbstractClass\Collection`
- * $users = Grabber::init(User::class);
- *
- *
- * ## Search entity
- *
- * // To get data without any condition
- * 	$users->all()
- * 		->orderBy(string)
- * 		->groupBy(string)
- * 		->limit(int, int)
- * 		->extract();
- *
- * // To find users by simple conditions
- * $users->find(['permission' => '10'])
- * 		->orderBy(string)
- * 		->groupBy(string)
- * 		->limit(int, int)
- * 		->extract(); // return users with `permission` = 10
- *
- * // To find users by complex condition
- * $users->search('first_name != :first_name', [':first_name' => 'Sam'])
- * 		->orderBy(string)
- * 		->groupBy(string)
- * 		->limit(int, int)
- * 		->extract();  // return users with `first_name` != 'Sam'
- *
- * ## Delete entity
- * $users->delete('id = :id', [':id' => 1]); // removes row with id = 1
- *
- * ## Add new entity
- *
- * // To add new entity data - can be used only for entities with single Primary key
- * $new_user = $users->addNew();
- *
- * $new_user->first_name = 'John';
- * $new_user->last_name = 'Smitt';
- *
- * $last_insert_id = $new_user->save(); // returns last_insert_id if table has autoincrement
- *
- * // Or you can use bulk data loading to add the data
- * $last_insert_id = $users->addNew($user_id)
- * 		->save([
- * 			'name' => 'Mark',
- * 		]);
- *
- * ## Update entity data
- * $new_user = Grabber::init(static::class)
- * 		->update('user_id = :id')
- * 		->binds([':id' => $user_id]);
- *
- * $new_user->name = 'Mark';
- *
- * $new_user->save();
- *
- * // Or you can use bulk data loading to add the data
- * Grabber::init(static::class)
- * 		->update('user_id = :id')
- * 		->binds([':id' => $user_id])
- * 		->save([
- * 			'name' => 'Mark',
- * 		]);
- *
- */
+namespace WebXID\EDMo;
 
-namespace Pobratym\EDMo;
-
-use Pobratym\EDMo\AbstractClass\MultiKeyModel;
-use Pobratym\EDMo\AbstractClass\Model;
+use WebXID\EDMo\AbstractClass\MultiKeyModel;
+use WebXID\EDMo\AbstractClass\Model;
 use InvalidArgumentException;
 use LogicException;
 
 /**
  * Class DataProcessor
  *
- * @package Pobratym\EDMo
+ * @package WebXID\EDMo
  */
 class DataProcessor
 {
@@ -134,7 +58,7 @@ class DataProcessor
 		}
 
 		if (!is_array($model_config) || empty($model_config)) {
-			throw new LogicException("Class {$model_class_name} was not implement correctly. It has to extends class `Pobratym\EDMo\AbstractClass\Collection`");
+			throw new LogicException("Class {$model_class_name} was not implement correctly. It has to extends class `WebXID\EDMo\AbstractClass\Collection`");
 		}
 
 		$object->columns = $model_config['columns'];

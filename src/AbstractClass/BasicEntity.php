@@ -1,20 +1,15 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\AbstractClass;
 
-namespace Pobratym\EDMo\AbstractClass;
-
-use Pobratym\EDMo\Rules;
+use WebXID\EDMo\Rules;
 use InvalidArgumentException;
 use LogicException;
 
 /**
  * Class BasicEntity
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 abstract class BasicEntity extends BasicDataContainer
 {

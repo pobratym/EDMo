@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\DataProcessor;
 
-namespace Pobratym\EDMo\DataProcessor;
-
-use Pobratym\EDMo\Validation;
+use WebXID\EDMo\Validation;
 
 /**
  * Class AbstractSaving
  *
- * @package Pobratym\EDMo\DataProcessor
+ * @package WebXID\EDMo\DataProcessor
  */
 abstract class AbstractSave
 {

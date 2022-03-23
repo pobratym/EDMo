@@ -1,9 +1,6 @@
 <?php
 
 /**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
  *  HOW TO USE
  * ============
  *
@@ -11,7 +8,7 @@
  *
  * $file_name = 'release_v0.1.0.sql';
  *
- * $queries_count = \Pobratym\EDMo\DB\Migration::init(__DIR__ . '/../../../configs/db_release_dumps/')
+ * $queries_count = \WebXID\EDMo\DB\Migration::init(__DIR__ . '/../../../configs/db_release_dumps/')
  * 		->collectUpgrades($file_name)
  * 		->execute();
  *
@@ -60,14 +57,16 @@
  *
  **/
 
-namespace Pobratym\EDMo\DB;
+namespace WebXID\EDMo\DB;
 
-use Pobratym\EDMo\DB;
+use WebXID\EDMo\DB;
 
 /**
+ * @deprecated The class is not completed
+ *
  * Class Migration
  *
- * @package Pobratym\EDMo\DB
+ * @package WebXID\EDMo\DB
  */
 class Migration
 {

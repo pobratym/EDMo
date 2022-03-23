@@ -1,6 +1,6 @@
 <?php
 
-use Pobratym\EDMo\DB;
+use WebXID\EDMo\DB;
 
 /**
  * Class DBTest

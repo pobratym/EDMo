@@ -1,146 +1,6 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- * This class use PDO and make work with it more comfortable
- *
- * # HOW TO USE
- *
- * If needs to connect to custom DB, use method connect('connection_name').
- * Without connect('connection_name'), it will connect to DB::DEFAULT_CONNECTION_NAME .
- * It works for all query types (query, update, insert, replace, delete, last_insert_id)
- *
- * SELECT Query
- * ==============
- *
- * $rules = [
- * 		1, 2, 3, 4, 5,
- * ];
- * $query = '	SELECT id, name
- * 		FROM users
- * 		WHERE id = :id
- * 			AND rule IN (:rule)
- * 		LIMIT 10';
- *
- * //Connecting to default DB
- * $users = DB::query($query)
- * 		->binds([
- * 			':id' => $id,
- * 			':rule' => $rules,
- * 		])
- * 		->execute()
- * 		->fetchArray();
- *
- * //Connecting to custom DB
- * $old_users = DB::connect('archive')
- * 		->query($query)
- * 		->binds([
- * 			':id' => $id,
- * 			':rule' => $rules,
- * 		])
- * 		->execute()
- * 		->fetchArray();
- *
- *
- * UPDATE Query
- * ==============
- *
- * //Connecting to default DB
- * DB::update('users')
- * 		->values([
- * 			'rule' => 6,
- * 		])
- * 		->where('rule IN (:rule)')
- * 		->binds([
- * 			':rule' => $rules,
- * 		])
- * 		->execute();
- *
- *
- * INSERT Query
- * ==============
- *
- * //Connecting to default DB
- * DB::insert('users')
- * 		->values([
- * 			'rule' => 6,
- * 		])
- * 		->execute()
- * 		->lastInsertId();
- *
- * DB::lastInsertId();
- *
- * //Get last ID from custom DB
- * DB::lastInsertId('archive');
- *
- * //Insert new and Update duplicated row
- * DB::insert('users', DB::NO_DUPLICATION)
- * 		->values([
- * 			'rule' => 6,
- * 		])
- * 		->execute();
- *
- *
- * REPLACE Query
- * ===============
- *
- * //Connecting to default DB
- * DB::replace('users')
- * 		->values([
- * 			'rule' => 6,
- * 		])
- * 		->execute();
- *
- *
- * DELETE Query
- * ==============
- *
- * //Connecting to default DB
- * DB::delete('users')
- * 		->where('rule IN (:rule)')
- * 		->binds([
- * 			':rule' => $rules,
- * 		])
- * 		->execute();
- *
- *
- * CLEAN / destroy connections
- * ===========================
- *
- * //Destroy all connections
- * DB::clean();
- *
- * //Destroy one connection, for example, with connection name 'archive'
- * DB::clean('archive');
- *
- * DB::DB::connect('archive')
- * 		->delete('users')
- * 		->where('rule IN (:rule)')
- * 		->binds([
- * 			':rule' => $rules,
- * 		])
- * 		->execute()
- * 		->clean();
- *
- *
- * SQL Transaction
- * ===============
- *
- * //Open Transaction
- * $db = DB::connect()
- * 		->beginTransaction();
- *
- * //Revert all changes, which happens inside Transaction
- * $db->rollbackTransaction();
- *
- * //Commit all changes, which happens inside Transaction
- * $db->commitTransaction();
- *
- */
-
-namespace Pobratym\EDMo;
+namespace WebXID\EDMo;
 
 use InvalidArgumentException;
 use LogicException;
@@ -148,13 +8,12 @@ use LogicException;
 /**
  * Class DB
  *
- * @package Pobratym\EDMo
+ * @package WebXID\EDMo
  */
 class DB
 {
 	const DEFAULT_CONNECTION_NAME = 'default';
-	/** @deprecated  */
-	const NO_DUPLICATION = 'update on duplicate key';
+
 	const DUPLICATE_UPDATE = 'update on duplicate key';
 	const DUPLICATE_IGNORE = 'ignore on duplicate key';
 	const DUPLICATE_ERROR = 'throw error on duplicate key';
@@ -352,7 +211,7 @@ class DB
 	 * Make Insert Query
 	 *
 	 * @param string $table - table name or JOINed tables, which has the same column names
-	 * @param mixed $no_duplication - set DB::NO_DUPLICATION , if needs to update available rows (works through 'ON DUPLICATE KEY')
+	 * @param mixed $no_duplication - set DB::DUPLICATE_UPDATE , if needs to update available rows (works through 'ON DUPLICATE KEY')
 	 *
 	 * @return DB\Query
 	 *

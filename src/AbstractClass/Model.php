@@ -1,87 +1,14 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *
- *   HOW TO USE
- * ==============
- *
- * // Implement entity class `User`
- * class User extends \Pobratym\EDMo\AbstractClass\Model
- * 	{
- * 		// Uses for update, insert and delete DB queries
- * 		const TABLE_NAME = 'user';
- * 			// Uses for `select` queries
- * 		const JOINED_TABLES = 'user u
- * 			LEFT JOIN role r ON r.role_id = u.role_id';
- *
- * 		protected static $pk_column_name = 'user_id';
- *
- * 		// Uses for update and insert queries
- * 		protected static $columns = [
- * 			'first_name' => 'string|50',
- * 			'last_name' => 'string|50',
- * 			'role_id' => 'int|11',
- * 		];
- * 		// Uses for `select` queries
- * 		protected static $joined_columns_list = [
- * 			'u.user_id',
- * 			'u.first_name',
- * 			'u.last_name',
- * 			'r.role_id',
- * 			'r.title AS role_name',
- * 		];
- *
- * 		protected static $db_connection = false;
- *
- * 		// Fill this property to allow an object property on read
- * 		protected static $readable_properties = [
- * 			// 'readable_property_name' => true,
- * 		];
- * 		// Fill this property to allow an object property on write
- * 		protected static $writable_properties = [
- * 			// 'writable_property_name' => true,
- * 		];
- * 	}
- *
- * $user_id = User::addNew([
- * 		'first_name' => 'Tony',
- * 		'group_id' => 1,
- * ]);
- *
- * // To get data of single entity by Primary Key
- * $user = User::get($user_id);
- *
- * $user->first_name = 'Jeck';
- * $user->group_id = 2;
- *
- * $user->save();
- *
- * // To get entity data by class `Entity`
- * $user_list_group_2 = User::find(['group_id' = 2]);
- * $full_user_list = User::all();
- *
- * $user->delete();
- *
- * // To get entity data by class `Entity`
- * $entity = EntityCollection::init(User::class);
- *
- * $entity->find()->extract();
- * $entity->search()->extract();
- * $entity->all()->extract();
- */
+namespace WebXID\EDMo\AbstractClass;
 
-namespace Pobratym\EDMo\AbstractClass;
-
-use Pobratym\EDMo\DB;
-use Pobratym\EDMo\DataProcessor;
+use WebXID\EDMo\DB;
+use WebXID\EDMo\DataProcessor;
 
 /**
  * Class Model
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 abstract class Model extends MultiKeyModel
 {

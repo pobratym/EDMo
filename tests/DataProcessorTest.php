@@ -1,6 +1,6 @@
 <?php
 
-use Pobratym\EDMo;
+use WebXID\EDMo;
 
 /**
  * Class DataProcessorTest

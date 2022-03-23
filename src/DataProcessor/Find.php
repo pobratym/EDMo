@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\DataProcessor;
 
-namespace Pobratym\EDMo\DataProcessor;
-
-use Pobratym\EDMo\DB;
+use WebXID\EDMo\DB;
 
 /**
  * Class Find
  *
- * @package Pobratym\EDMo\DataProcessor
+ * @package WebXID\EDMo\DataProcessor
  */
 class Find extends AbstractSearch
 {

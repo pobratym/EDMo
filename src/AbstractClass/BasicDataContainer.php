@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\AbstractClass;
+namespace WebXID\EDMo\AbstractClass;
 
 use LogicException;
 
 /**
  * Class BasicDataContainer
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 class BasicDataContainer
 {

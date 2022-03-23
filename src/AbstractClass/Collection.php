@@ -1,11 +1,6 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\AbstractClass;
+namespace WebXID\EDMo\AbstractClass;
 
 use InvalidArgumentException;
 use Iterator;
@@ -18,7 +13,7 @@ use Countable;
  *
  * @see BasicEntity
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 abstract class Collection extends BasicDataContainer implements Iterator, ArrayAccess, Countable
 {

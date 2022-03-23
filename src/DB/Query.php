@@ -1,21 +1,16 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
+namespace WebXID\EDMo\DB;
 
-namespace Pobratym\EDMo\DB;
-
-use Pobratym\EDMo\Bugtracker;
+use WebXID\EDMo\Bugtracker;
 use PDO;
-use Pobratym\EDMo\DB;
+use WebXID\EDMo\DB;
 use PDOException;
 use InvalidArgumentException;
 
 /**
  * Class Query
- * @see \Pobratym\EDMo\DB
+ * @see \WebXID\EDMo\DB
  *
  * @package DB
  */
@@ -406,7 +401,6 @@ class Query
 		switch ($this->query_type) {
 			case self::INSERT_TYPE:
 				switch ($this->no_duplication) {
-					case DB::NO_DUPLICATION:
 					case DB::DUPLICATE_UPDATE:
 						$table = explode('.', $this->table);
 

@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\Rules;
+namespace WebXID\EDMo\Rules;
 
 /**
  * Class Condition
  *
- * @package Pobratym\EDMo\Rules
+ * @package WebXID\EDMo\Rules
  */
 class Condition
 {

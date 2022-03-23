@@ -1,6 +1,5 @@
 <?php
 
-
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/DataProcessor/TempModel.php';
 
@@ -26,7 +25,7 @@ class AbstractTst extends \PHPUnit\Framework\TestCase
 		return $property->getValue();
 	}
 
-	/**Pobratym\EDMo\DB
+	/**
 	 * @param string|object $class_or_object
 	 * @param string $property_name
 	 * @param mixed $value

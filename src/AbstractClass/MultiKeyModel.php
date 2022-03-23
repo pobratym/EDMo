@@ -1,86 +1,19 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *
- *   HOW TO USE
- * ==============
- *
- * A entity does not have single primary key, it could has multi primary key or no one
- *
- * // Implement entity collection class `Option`
- * class Option extends \Pobratym\EDMo\AbstractClass\MultiModel
- * 	{
- * 		// Uses for update, insert and delete DB queries
- * 		const TABLE_NAME = 'option';
- * 		// Uses for `select` queries
- * 		const JOINED_TABLES = 'option o
- * 			LEFT JOIN config c ON c.key = o.config_key';
- *
- * 		// Uses for update and insert queries
- * 		protected $columns = [
- * 			'key' => 'string|50',
- * 			'value' => 'string|50',
- * 		];
- * 		// Uses for `select` queries
- * 		protected $joined_columns_list = [
- * 			'o.key',
- * 			'o.value',
- * 			'u.last_name',
- * 			'c.key AS config_key',
- * 		];
- * 		protected $db_connection = false;
- * 		// Fill this property to allow an object property on read
- * 		protected static $readable_properties = [
- * 			// 'readable_property_name' => true,
- * 		];
- * 		// Fill this property to allow an object property on write
- * 		protected static $writable_properties = [
- * 			// 'writable_property_name' => true,
- * 		];
- * 	}
- *
- * // To get entity list
- * $limit = 1;
- * $page = 3;
- *
- * $users_list = Option::all($limit, $page);
- *
- * // To add new Entity into DB
- * $user = Option::addNew();
- *
- * $user->key = 'some_option';
- * $user->value = 'Smitt'
- *
- * $user->save();
- *
- * // Or you can use bulk data loading to add the data
- * $user = Option::addNew()
- * 		->save([
- * 			'key' => 'some_option',
- * 			'value' => 'Smitt',
- * 		]);
- *
- * // To get entity collection data by class `Grabber`
- * $entity_collection = Grabber::init(Option::class);
- */
+namespace WebXID\EDMo\AbstractClass;
 
-namespace Pobratym\EDMo\AbstractClass;
-
-use Pobratym\EDMo\DB;
-use Pobratym\EDMo\DataProcessor;
-use Pobratym\EDMo\Rules;
+use WebXID\EDMo\DB;
+use WebXID\EDMo\DataProcessor;
+use WebXID\EDMo\Rules;
 use InvalidArgumentException;
 use LogicException;
-use Pobratym\EDMo\Rules\Field;
+use WebXID\EDMo\Rules\Field;
 use RuntimeException;
 
 /**
  * Class Collection
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 abstract class MultiKeyModel extends BasicEntity
 {
@@ -120,7 +53,7 @@ abstract class MultiKeyModel extends BasicEntity
 	 */
 	public static function all(int $limit = 0, int $page = 1) : array
 	{
-		$request = \Pobratym\EDMo\DataProcessor::init(static::class)
+		$request = DataProcessor::init(static::class)
 			->all();
 
 		if ($limit > 0) {

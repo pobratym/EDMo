@@ -1,16 +1,11 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- */
-
-namespace Pobratym\EDMo\AbstractClass;
+namespace WebXID\EDMo\AbstractClass;
 
 /**
  * Interface CollectionItem
  *
- * @package Pobratym\EDMo\AbstractClass
+ * @package WebXID\EDMo\AbstractClass
  */
 interface CollectionItem
 {

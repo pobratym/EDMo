@@ -1,48 +1,8 @@
 <?php
 
-/**
- * @copyright Copyright (c) Pavlo Matsura
- * @link https://github.com/pobratym
- *
- *
- * This class uses to prepare SQL query data for request
- *
- *    HOW TO USE
- * ===============
- * $request = new \Pobratym\EDMo\DB\Request();
- *
- * $request->relation = Request::RELATION_AND;
- * $request->operator = Request::MORE_EQUAL; //this is default value of condition operator
- * $request->column_conditions = [
- * 		'taxonomy_id' => [
- * 			Request::NOT_IN => 1,
- * 			Request::IN => '2'
- *
- * 			Request::IS_NULL,
- * 			Request::NOT_IS_NULL,
- * 		],
- * 		'parent_id' => 1, // will use default condition operator: $request->operator
- * ];
- *
- * $request->order = [
- * 		'parent_id' => Request::ORDER_BY_ASC,
- * 		'type' => Request::ORDER_BY_DESC,
- * ];
- *
- * $request->execute();
- *
- * print_r([
- * 		$request->getWhere(),
- * 		$request->getBinds(),
- * 		$request->getOrderBy(),
- * 		$request->getLimit(),
- * 		$request->getRequestHash(),
- * ]);
- */
+namespace WebXID\EDMo\DB;
 
-namespace Pobratym\EDMo\DB;
-
-use Pobratym\EDMo\Rules;
+use WebXID\EDMo\Rules;
 
 /**
  * Class Request
@@ -52,9 +12,9 @@ use Pobratym\EDMo\Rules;
  * @property array $column_conditions
  * @property array $order
  *
- * @package Pobratym\EDMo\DB
+ * @package WebXID\EDMo\DB
  */
-class Request extends \Pobratym\EDMo\AbstractClass\BasicEntity
+class Request extends \WebXID\EDMo\AbstractClass\BasicEntity
 {
 	// Relation
 	const RELATION_AND = ' AND ';

@@ -11,10 +11,10 @@ use WebXID\EDMo\DB;
  */
 class Find extends AbstractSearch
 {
-	public function find(array $conditions, string $relation = DB\Build::RELATION_AND)
-	{
-		$this->db_build->find($conditions, $relation);
+    public function find(array $conditions, string $relation = DB\Build::RELATION_AND)
+    {
+        $this->db_build->find($conditions, $relation);
 
-		return $this;
-	}
+        return $this;
+    }
 }

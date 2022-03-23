@@ -9,8 +9,8 @@ namespace WebXID\EDMo\AbstractClass;
  */
 interface CollectionItem
 {
-	/**
-	 * @return array
-	 */
-	public function toArray();
+    /**
+     * @return array
+     */
+    public function toArray();
 }

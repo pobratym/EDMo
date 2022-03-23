@@ -11,57 +11,57 @@ use WebXID\EDMo\DB;
  */
 class Delete extends AbstractSave
 {
-	private $where = null;
-	private $binds = [];
+    private $where = null;
+    private $binds = [];
 
-	#region Object methods
+    #region Object methods
 
-	/**
-	 * @param string $where
-	 *
-	 * @return $this
-	 */
-	public function where(string $where)
-	{
-		$this->where = $where;
+    /**
+     * @param string $where
+     *
+     * @return $this
+     */
+    public function where(string $where)
+    {
+        $this->where = $where;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $binds
-	 *
-	 * @return $this
-	 */
-	public function binds(array $binds)
-	{
-		if (empty($binds)) {
-			throw new \InvalidArgumentException('Invalid $binds');
-		}
+    /**
+     * @param array $binds
+     *
+     * @return $this
+     */
+    public function binds(array $binds)
+    {
+        if (empty($binds)) {
+            throw new \InvalidArgumentException('Invalid $binds');
+        }
 
-		$this->binds = $binds;
+        $this->binds = $binds;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function execute()
-	{
-		$this->validateDBData();
+    public function execute()
+    {
+        $this->validateDBData();
 
-		if ($this->where == null) {
-			throw new \InvalidArgumentException('WHERE condition is missed');
-		}
+        if ($this->where == null) {
+            throw new \InvalidArgumentException('WHERE condition is missed');
+        }
 
-		$result = DB::connect($this->add_new_collection_db_settings_data['connection_name'])
-			->delete($this->add_new_collection_db_settings_data['table_name'])
-			->where($this->where);
+        $result = DB::connect($this->add_new_collection_db_settings_data['connection_name'])
+            ->delete($this->add_new_collection_db_settings_data['table_name'])
+            ->where($this->where);
 
-		if (!empty($this->binds)) {
-			$result->binds($this->binds);
-		}
+        if (!empty($this->binds)) {
+            $result->binds($this->binds);
+        }
 
-		$result->execute();
-	}
+        $result->execute();
+    }
 
-	#endregion
+    #endregion
 }

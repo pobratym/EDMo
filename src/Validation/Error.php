@@ -9,86 +9,86 @@ namespace WebXID\EDMo\Validation;
  */
 class Error
 {
-	private $errors = [];
+    private $errors = [];
 
-	#region Magic methods
+    #region Magic methods
 
-	/**
-	 * @param array $errors
-	 */
-	private function __construct(array $errors) {}
+    /**
+     * @param array $errors
+     */
+    private function __construct(array $errors) {}
 
-	#endregion
+    #endregion
 
-	#region Builders
+    #region Builders
 
-	/**
-	 * @param array $errors
-	 * [
-	 * 		param_name => error_message,
-	 * 		...
-	 * ]
-	 *
-	 * @return static
-	 */
-	public static function init(array $errors = [])
-	{
-		return new static($errors);
-	}
+    /**
+     * @param array $errors
+     * [
+     *         param_name => error_message,
+     *         ...
+     * ]
+     *
+     * @return static
+     */
+    public static function init(array $errors = [])
+    {
+        return new static($errors);
+    }
 
-	#endregion
+    #endregion
 
-	#region Setters
+    #region Setters
 
-	/**
-	 * @param string $param_name
-	 * @param string $error_message
-	 *
-	 * @return $this
-	 */
-	public function add(string $param_name, string $error_message)
-	{
-		$this->errors[$param_name] = $error_message;
+    /**
+     * @param string $param_name
+     * @param string $error_message
+     *
+     * @return $this
+     */
+    public function add(string $param_name, string $error_message)
+    {
+        $this->errors[$param_name] = $error_message;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param array $error_message
-	 *
-	 * @return $this
-	 */
-	public function import(array $error_message)
-	{
-		$this->errors = array_merge($error_message, $this->errors);
+    /**
+     * @param array $error_message
+     *
+     * @return $this
+     */
+    public function import(array $error_message)
+    {
+        $this->errors = array_merge($error_message, $this->errors);
 
-		return $this;
-	}
+        return $this;
+    }
 
 
-	#endregion
+    #endregion
 
-	#region Getters
+    #region Getters
 
-	/**
-	 * @return array
-	 */
-	public function toArray()
-	{
-		return $this->errors;
-	}
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->errors;
+    }
 
-	#endregion
+    #endregion
 
-	#region Is Condition methods
+    #region Is Condition methods
 
-	/**
-	 * @return bool
-	 */
-	public function isNotEmpty()
-	{
-		return !empty($this->errors);
-	}
+    /**
+     * @return bool
+     */
+    public function isNotEmpty()
+    {
+        return !empty($this->errors);
+    }
 
-	#endregion
+    #endregion
 }

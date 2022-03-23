@@ -8,35 +8,35 @@ require __DIR__ . '/DataProcessor/TempModel.php';
  */
 class AbstractTst extends \PHPUnit\Framework\TestCase
 {
-	#region Helpers
+    #region Helpers
 
-	/**
-	 * @param string|object $class_or_object
-	 * @param string $property_name
-	 *
-	 * @return mixed
-	 */
-	protected function getStaticProperty($class_or_object, string $property_name)
-	{
-		$reflection = new \ReflectionClass($class_or_object);
-		$property = $reflection->getProperty($property_name);
-		$property->setAccessible(true);
+    /**
+     * @param string|object $class_or_object
+     * @param string $property_name
+     *
+     * @return mixed
+     */
+    protected function getStaticProperty($class_or_object, string $property_name)
+    {
+        $reflection = new \ReflectionClass($class_or_object);
+        $property = $reflection->getProperty($property_name);
+        $property->setAccessible(true);
 
-		return $property->getValue();
-	}
+        return $property->getValue();
+    }
 
-	/**
-	 * @param string|object $class_or_object
-	 * @param string $property_name
-	 * @param mixed $value
-	 */
-	protected function setStaticProperty($class_or_object, string $property_name, $value)
-	{
-		$reflection = new \ReflectionClass($class_or_object);
-		$property = $reflection->getProperty($property_name);
-		$property->setAccessible(true);
-		$property->setValue($class_or_object, $value);
-	}
+    /**
+     * @param string|object $class_or_object
+     * @param string $property_name
+     * @param mixed $value
+     */
+    protected function setStaticProperty($class_or_object, string $property_name, $value)
+    {
+        $reflection = new \ReflectionClass($class_or_object);
+        $property = $reflection->getProperty($property_name);
+        $property->setAccessible(true);
+        $property->setValue($class_or_object, $value);
+    }
 
-	#endregion
+    #endregion
 }

@@ -11,86 +11,86 @@ use WebXID\EDMo\Validation\AbstractClass\StringAbstractRules;
  */
 class StringRules extends StringAbstractRules
 {
-	protected function __construct($value, $message, $field_name)
-	{
-		if (!is_string($message) || empty($message)) {
-			throw new \InvalidArgumentException('Invalid $message');
-		}
+    protected function __construct($value, $message, $field_name)
+    {
+        if (!is_string($message) || empty($message)) {
+            throw new \InvalidArgumentException('Invalid $message');
+        }
 
-		if (is_string($field_name)) {
-			$this->field_name = $field_name;
-		}
+        if (is_string($field_name)) {
+            $this->field_name = $field_name;
+        }
 
-		if (
-			$value !== null
-			&& !is_string($value)
-			&& !is_numeric($value)
-			&& !empty($value)
-		) {
-			$this->collectError($message);
-		}
+        if (
+            $value !== null
+            && !is_string($value)
+            && !is_numeric($value)
+            && !empty($value)
+        ) {
+            $this->collectError($message);
+        }
 
-		$this->value = $value;
-	}
+        $this->value = $value;
+    }
 
-	/**
-	 * @param $value
-	 * @param $message
-	 *
-	 * @return $this
-	 */
-	public function phone($value, $message)
-	{
-		if (!is_string($message) || empty($message)) {
-			throw new \InvalidArgumentException('Invalid $message');
-		}
+    /**
+     * @param $value
+     * @param $message
+     *
+     * @return $this
+     */
+    public function phone($value, $message)
+    {
+        if (!is_string($message) || empty($message)) {
+            throw new \InvalidArgumentException('Invalid $message');
+        }
 
-		$numbers_only = preg_replace("/[^0-9]/", '', $value);
-		$number_of_digits = strlen($numbers_only);
+        $numbers_only = preg_replace("/[^0-9]/", '', $value);
+        $number_of_digits = strlen($numbers_only);
 
 
-		if ($number_of_digits < 10 || $number_of_digits > 12) {
-			$this->collectError($message);
-		}
+        if ($number_of_digits < 10 || $number_of_digits > 12) {
+            $this->collectError($message);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param $value
-	 * @param $message
-	 *
-	 * @return StringRules
-	 */
-	public function email($value, $message)
-	{
-		if (!is_string($message) || empty($message)) {
-			throw new \InvalidArgumentException('Invalid $message');
-		}
+    /**
+     * @param $value
+     * @param $message
+     *
+     * @return StringRules
+     */
+    public function email($value, $message)
+    {
+        if (!is_string($message) || empty($message)) {
+            throw new \InvalidArgumentException('Invalid $message');
+        }
 
-		if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-			$this->collectError($message);
-		}
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            $this->collectError($message);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * @param $value
-	 * @param $message
-	 *
-	 * @return StringRules
-	 */
-	public function ipAddress($value, $message)
-	{
-		if (!is_string($message) || empty($message)) {
-			throw new \InvalidArgumentException('Invalid $message');
-		}
+    /**
+     * @param $value
+     * @param $message
+     *
+     * @return StringRules
+     */
+    public function ipAddress($value, $message)
+    {
+        if (!is_string($message) || empty($message)) {
+            throw new \InvalidArgumentException('Invalid $message');
+        }
 
-		if (!filter_var($value, FILTER_VALIDATE_IP)) {
-			$this->collectError($message);
-		}
+        if (!filter_var($value, FILTER_VALIDATE_IP)) {
+            $this->collectError($message);
+        }
 
-		return $this;
-	}
+        return $this;
+    }
 }

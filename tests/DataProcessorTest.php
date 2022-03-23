@@ -7,116 +7,116 @@ use WebXID\EDMo;
  */
 class DataProcessorTest extends AbstractTst
 {
-	#region DataProcessor::init()
+    #region DataProcessor::init()
 
-	/**
-	 *
-	 */
-	public function testInit()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testInit()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$this->assertInstanceOf(EDMo\DataProcessor::class, $processor);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor::class, $processor);
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::all()
+    #region DataProcessor::all()
 
-	/**
-	 *
-	 */
-	public function testAll()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testAll()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$this->assertInstanceOf(EDMo\DataProcessor\AbstractSearch::class, $processor->all());
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\AbstractSearch::class, $processor->all());
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::find()
+    #region DataProcessor::find()
 
-	/**
-	 *
-	 */
-	public function testFind()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testFind()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$result = $processor->find([
-			'id' => [1, 2],
-			'title' => 'Aaaaa'
-		], EDMo\DB\Build::RELATION_OR);
+        $result = $processor->find([
+            'id' => [1, 2],
+            'title' => 'Aaaaa'
+        ], EDMo\DB\Build::RELATION_OR);
 
-		$this->assertInstanceOf(EDMo\DataProcessor\Find::class, $result);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\Find::class, $result);
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::search()
+    #region DataProcessor::search()
 
-	/**
-	 *
-	 */
-	public function testSearch()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testSearch()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$result = $processor->search(' title LIKE :title ', [':title' => '%fff%']);
+        $result = $processor->search(' title LIKE :title ', [':title' => '%fff%']);
 
-		$this->assertInstanceOf(EDMo\DataProcessor\Search::class, $result);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\Search::class, $result);
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::addNew()
+    #region DataProcessor::addNew()
 
-	/**
-	 *
-	 */
-	public function testAddNew()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testAddNew()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$result = $processor->addNew();
+        $result = $processor->addNew();
 
-		$this->assertInstanceOf(EDMo\DataProcessor\AddNew::class, $result);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\AddNew::class, $result);
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::update()
+    #region DataProcessor::update()
 
-	/**
-	 *
-	 */
-	public function testUpdate()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testUpdate()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$result = $processor->update(" id IN (:id) ")
-			->binds([':id' => [1, 2]]);
+        $result = $processor->update(" id IN (:id) ")
+            ->binds([':id' => [1, 2]]);
 
-		$this->assertInstanceOf(EDMo\DataProcessor\Update::class, $result);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\Update::class, $result);
+    }
 
-	#endregion
+    #endregion
 
-	#region DataProcessor::delete()
+    #region DataProcessor::delete()
 
-	/**
-	 *
-	 */
-	public function testDelete()
-	{
-		$processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+    /**
+     *
+     */
+    public function testDelete()
+    {
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
 
-		$result = $processor->delete(" id IN (:id) ")
-			->binds([':id' => [1, 2]]);
+        $result = $processor->delete(" id IN (:id) ")
+            ->binds([':id' => [1, 2]]);
 
-		$this->assertInstanceOf(EDMo\DataProcessor\Delete::class, $result);
-	}
+        $this->assertInstanceOf(EDMo\DataProcessor\Delete::class, $result);
+    }
 
-	#endregion
+    #endregion
 }

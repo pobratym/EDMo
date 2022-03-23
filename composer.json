@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "keywords": [],
   "homepage": "https://github.com/webxid/EDMo",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Pavlo Matsura",

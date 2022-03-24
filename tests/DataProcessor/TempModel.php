@@ -47,7 +47,7 @@ class TempModel extends Model
      */
     public static function getRules() : Rules
     {
-        return Rules::create([
+        return Rules::make([
             'title' => Rules\Field::string([
                 Rules\Type::itRequired(1),
                 Rules\Type::minLen(1),

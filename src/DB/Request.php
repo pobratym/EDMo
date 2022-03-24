@@ -396,7 +396,7 @@ class Request extends \WebXID\EDMo\AbstractClass\BasicEntity
      */
     public static function getRules() : Rules
     {
-        return Rules::create([]);
+        return Rules::make([]);
     }
 
     #endregion

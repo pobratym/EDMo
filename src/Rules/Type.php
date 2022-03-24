@@ -219,7 +219,7 @@ class Type extends BasicDataContainer
      */
     private static function collectConditionConfig($type, $value, $message)
     {
-        return static::create([
+        return static::make([
             'type' => $type,
             'value' => $value,
             'message' => $message,

@@ -115,7 +115,7 @@ abstract class BasicEntity extends BasicDataContainer
      *
      * @return static
      */
-    public static function make(array $data)
+    public static function make(array $data = [])
     {
         $object = new static();
 

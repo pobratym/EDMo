@@ -118,7 +118,9 @@ class Request extends \WebXID\EDMo\AbstractClass\BasicEntity
                     break;
             }
 
-            return $this->$property_name = $value;
+            $this->$property_name = $value;
+
+            return;
         }
 
         throw new \InvalidArgumentException("Property `{$property_name}` does not exist");

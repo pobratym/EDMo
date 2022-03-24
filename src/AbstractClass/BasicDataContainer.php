@@ -17,24 +17,56 @@ class BasicDataContainer
 
     #region Magic Methods
 
-    public function __get($name) {
-        if (!isset($this->_data[$name])) {
+    /**
+     * @param $name
+     *
+     * @return mixed|null
+     */
+    public function __get($name)
+    {
+        if (!isset($this->_data[$name]) && !property_exists($this, $name)) {
             return null;
         }
 
-        return $this->_data[$name];
+        return property_exists($this, $name)
+            ? $this->$name
+            : $this->_data[$name];
     }
 
-    public function __set($name, $value) {
-        return $this->_data[$name] = $value;
+    /**
+     * @param $name
+     * @param $value
+     */
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
+
+            return;
+        }
+
+        $this->_data[$name] = $value;
     }
 
-    public function __isset($name) {
+    /**
+     * @param $name
+     *
+     * @return bool
+     */
+    public function __isset($name)
+    {
         return true;
     }
 
+    /**
+     * @param $name
+     */
     public function __unset($name)
     {
+        if (property_exists($this, $name)) {
+            unset($this->$name);
+        }
+
         unset($this->_data[$name]);
     }
 
@@ -77,9 +109,13 @@ class BasicDataContainer
      *
      * @return static
      */
-    public static function make(array $data = []) {
+    public static function make(array $data = [])
+    {
         $object = new static();
-        $object->_data = $data;
+
+        foreach ($data as $name => $value) {
+            $object->$name = $value;
+        }
 
         return $object;
     }

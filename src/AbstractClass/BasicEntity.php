@@ -67,8 +67,6 @@ abstract class BasicEntity extends BasicDataContainer
     /**
      * @param $property_name
      * @param $value
-     *
-     * @return mixed
      */
     public function __set($property_name, $value)
     {
@@ -84,10 +82,12 @@ abstract class BasicEntity extends BasicDataContainer
                 throw new LogicException('Method ' . $property_name . ' does not exist');
             }
 
-            return $this->{$property_setting}($value);
+            $this->{$property_setting}($value);
+
+            return;
         }
 
-        return $this->_setProperty($property_name, $value);
+        $this->_setProperty($property_name, $value);
     }
 
     /**
@@ -212,7 +212,7 @@ abstract class BasicEntity extends BasicDataContainer
         }
 
         if (property_exists($this, $property_name)) {
-            $this->$property_name = null;
+            unset($this->$property_name);
         }
 
         parent::__unset($property_name);

@@ -14,16 +14,15 @@ use LogicException;
 abstract class BasicEntity extends BasicDataContainer
 {
     /**
-     * @var static[]
-     */
-    protected static $instance = [];
-    /**
      * Method static::toArray() uses this list
      *
      * @var array
      */
     protected static $readable_properties = [];
     protected static $writable_properties = [];
+
+    /** @var bool */
+    private $is_novice = true;
 
     #region Magic Methods
 
@@ -135,7 +134,41 @@ abstract class BasicEntity extends BasicDataContainer
 
     #endregion
 
+    #region Actions
+
+    /**
+     * Calls after a model saved in DB by $this->save() method
+     *
+     * @return void
+     */
+    protected function savedAction()
+    {
+        $this->is_novice = false;
+    }
+
+    /**
+     * Calls after a model deleted in DB by $this->delete() method
+     *
+     * @return void
+     */
+    protected function deletedAction()
+    {
+        $this->is_novice = true;
+    }
+
+    #endregion
+
     #region Is Condition methods
+
+    /**
+     * Returns TRUE if a model does not saved in DB at all
+     *
+     * @return bool
+     */
+    public function isNovice(): bool
+    {
+        return $this->is_novice;
+    }
 
     /**
      * @param string $property_name
@@ -167,14 +200,17 @@ abstract class BasicEntity extends BasicDataContainer
 
     /**
      * @param array $properties_array
+     * @param bool $is_novice
      *
      * @return $this
      */
-    protected function _load(array $properties_array)
+    protected function _load(array $properties_array, bool $is_novice = true)
     {
         if (!is_array($properties_array)) {
             throw new InvalidArgumentException('Invalid $properties_array');
         }
+
+        $this->is_novice = $is_novice;
 
         foreach ($properties_array as $property_name => $value) {
             $this->_setProperty($property_name, $value);

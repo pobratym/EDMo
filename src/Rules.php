@@ -84,6 +84,26 @@ class Rules extends Collection
 
     #region Getters
 
+    /**
+     * @param array $data
+     * @param static $rules
+     *
+     * @return static
+     */
+    final public static function filterRulesData(array $data, Rules $rules)
+    {
+        $result = [];
+
+        foreach ($rules as $index => $rule) {
+            /** @var Field $rule */
+            if (isset($data[$rule->field_name])) {
+                $result[$rule->field_name] = $rule;
+            }
+        }
+
+        return static::import($result);
+    }
+
     #endregion
 
     #region Is Conditions methods

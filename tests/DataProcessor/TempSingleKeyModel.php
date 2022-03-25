@@ -2,7 +2,7 @@
 
 namespace Test\DataProcessor;
 
-use WebXID\EDMo\AbstractClass\Model;
+use WebXID\EDMo\AbstractClass\SingleKeyModel;
 use WebXID\EDMo\Rules;
 
 /**
@@ -14,7 +14,7 @@ use WebXID\EDMo\Rules;
  * @property string $title
  * @property int $parent_id
  */
-class TempModel extends Model
+class TempSingleKeyModel extends SingleKeyModel
 {
     const TABLE_NAME = 'ut_test_symfony.TempModel'; // Allows to contain single table only
     const JOINED_TABLES = 'ut_test_symfony.TempModel tm'; // Allows to contain single table name and/or joined tables with `ON` and `WHERE`

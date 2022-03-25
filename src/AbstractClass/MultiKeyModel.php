@@ -2,13 +2,12 @@
 
 namespace WebXID\EDMo\AbstractClass;
 
-use WebXID\EDMo\DB;
-use WebXID\EDMo\DataProcessor;
-use WebXID\EDMo\Rules;
-use InvalidArgumentException;
 use LogicException;
-use WebXID\EDMo\Rules\Field;
+use InvalidArgumentException;
 use RuntimeException;
+use WebXID\EDMo\DataProcessor;
+use WebXID\EDMo\DB;
+use WebXID\EDMo\Rules;
 
 /**
  * Class Collection
@@ -36,20 +35,28 @@ abstract class MultiKeyModel extends BasicEntity
         // ...
     ];
 
+    #region Abstract methods
+
+    /**
+     * Returns conritions list to get entity by multiple unique key
+     *
+     * @return array
+     * [
+     *      column => value,
+     *      ...
+     * ]
+     */
+    abstract protected function getUniqueKeyConditions(): array;
+
+    #endregion
+
     #region Builders
 
     /**
      * @param int $limit
      * @param int $page
      *
-     * @return array
-     * [
-     *      0 => [
-     *          column_name => value,
-     *          ...
-     *      ],
-     *      ...
-     * ]
+     * @return static[]
      */
     public static function all(int $limit = 0, int $page = 1) : array
     {
@@ -60,10 +67,14 @@ abstract class MultiKeyModel extends BasicEntity
             $request->limit($limit, $page);
         }
 
-        $result = $request->extract();
+        $data = $request->extract();
+        $result = [];
 
-        foreach ($result as &$entity) {
-            static::_filterEntityData($entity);
+        foreach ($data as $entity) {
+            static::_filterModelData($entity);
+
+            $result[] = (new static())
+                ->_load($entity, false);
         }
 
         return $result;
@@ -74,14 +85,7 @@ abstract class MultiKeyModel extends BasicEntity
      * @param int $limit
      * @param int $page
      *
-     * @return array
-     * [
-     *      0 => [
-     *          column_name => value,
-     *          ...
-     *      ],
-     *      ...
-     * ]
+     * @return static[]
      */
     public static function find(array $conditions, int $limit = 100, int $page = 1) : array
     {
@@ -92,10 +96,14 @@ abstract class MultiKeyModel extends BasicEntity
             $request->limit($limit, $page);
         }
 
-        $result = $request->extract();
+        $data = $request->extract();
+        $result = [];
 
-        foreach ($result as &$entity) {
-            static::_filterEntityData($entity);
+        foreach ($data as $entity) {
+            static::_filterModelData($entity);
+
+            $result[] = (new static())
+                ->_load($entity, false);
         }
 
         return $result;
@@ -104,14 +112,14 @@ abstract class MultiKeyModel extends BasicEntity
     /**
      * @param array $conditions
      *
-     * @return array
+     * @return static|null
      */
     public static function findOne(array $conditions)
     {
         $data = static::find($conditions, 1);
 
         if (!$data) {
-            return [];
+            return null;
         }
 
         return $data[0];
@@ -123,7 +131,7 @@ abstract class MultiKeyModel extends BasicEntity
      * @param int $limit
      * @param int $page
      *
-     * @return array
+     * @return static[]
      */
     public static function search(string $where, array $binds = [], int $limit = 100, int $page = 1) : array
     {
@@ -134,10 +142,14 @@ abstract class MultiKeyModel extends BasicEntity
             $request->limit($limit, $page);
         }
 
-        $result = $request->extract();
+        $data = $request->extract();
+        $result = [];
 
-        foreach ($result as &$entity) {
-            static::_filterEntityData($entity);
+        foreach ($data as $entity) {
+            static::_filterModelData($entity);
+
+            $result[] = (new static())
+                ->_load($entity, false);
         }
 
         return $result;
@@ -145,39 +157,63 @@ abstract class MultiKeyModel extends BasicEntity
 
     #endregion
 
-    #region Setters
+    #region Updates methods
+
+    /**
+     * ToDo: implement isNovice() method
+     *
+     * @return $this
+     */
+    public function save()
+    {
+        static::_checkModelImplementation();
+
+        $entity_data = $this->getUniqueKeyConditions();
+
+        foreach (static::$writable_properties as $property => $value) {
+            $entity_data[$property] = $this->{$property};
+        }
+
+        static::addNewOrUpdate($entity_data);
+
+        $this->savedAction();
+
+        return $this;
+    }
+
+    /**
+     * Removes a model by Primary Key
+     *
+     * @return void
+     */
+    public function delete()
+    {
+        static::_checkModelImplementation();
+
+        static::remove($this->getUniqueKeyConditions());
+
+        $this->deletedAction();
+    }
 
     /**
      * @param array $conditions
      */
     public static function remove(array $conditions)
     {
-        $where = '';
+        $where = [];
         $binds = [];
 
         foreach ($conditions as $column => $value) {
-            if ($where) {
-                $where .= ' AND ';
-            }
-
             $placeholder = trim($column, '`');
 
-            $where .= " {$column} = :{$placeholder} ";
+            $where[] = " {$column} = :{$placeholder} ";
             $binds[':' . $placeholder] = $value;
         }
 
         DataProcessor::init(static::class)
-            ->delete($where)
+            ->delete(implode(' AND ', $where))
             ->binds($binds)
             ->execute();
-    }
-
-    /**
-     * @return void
-     */
-    public function delete()
-    {
-        throw new LogicException('The method is not implemented');
     }
 
     /**
@@ -221,7 +257,7 @@ abstract class MultiKeyModel extends BasicEntity
     #region Getters
 
     /**
-     * It has to return single entity or null, if there are more data
+     * It has to return single entity or null, if there are more/no data
      *
      * @param array $conditions
      *
@@ -239,16 +275,21 @@ abstract class MultiKeyModel extends BasicEntity
             return null;
         }
 
-        $data = $data[0];
+        $object = $data[0];
 
-        $rules = static::filterRulesData(static::getModelConfig('columns'), static::getRules());
+        $columns_list = static::getModelConfig('columns');
+
+        $rules = Rules::filterRulesData($columns_list, static::getRules());
+
+        $data = [];
+
+        foreach ($columns_list as $column_name => $tmp) {
+            $data[$column_name] = $object->$column_name;
+        }
 
         if (!$rules->isValid($data)) {
             throw new RuntimeException($rules->validation->getFirstErrorField() . ': ' . $rules->validation->getFirstError());
         }
-
-        $object = new static();
-        $object->_load($data);
 
         return $object;
     }
@@ -331,27 +372,7 @@ abstract class MultiKeyModel extends BasicEntity
     /**
      * @param array $model_data
      */
-    protected static function _filterEntityData(array &$model_data) {}
-
-    /**
-     * @param array $data
-     * @param Rules $rules
-     *
-     * @return Rules
-     */
-    final public static function filterRulesData(array $data, Rules $rules)
-    {
-        $result = [];
-
-        foreach ($rules as $index => $rule) {
-            /** @var Field $rule */
-            if (isset($data[$rule->field_name])) {
-                $result[$rule->field_name] = $rule;
-            }
-        }
-
-        return Rules::import($result);
-    }
+    protected static function _filterModelData(array &$model_data) {}
 
     #endregion
 }

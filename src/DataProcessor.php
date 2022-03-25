@@ -3,7 +3,7 @@
 namespace WebXID\EDMo;
 
 use WebXID\EDMo\AbstractClass\MultiKeyModel;
-use WebXID\EDMo\AbstractClass\Model;
+use WebXID\EDMo\AbstractClass\SingleKeyModel;
 use InvalidArgumentException;
 use LogicException;
 
@@ -49,9 +49,7 @@ class DataProcessor
 
         $parent = class_parents($model_class_name);
 
-        if (isset($parent[Model::class])) {
-            $model_config = $model_class_name::getModelConfig();
-        } elseif (isset($parent[MultiKeyModel::class])) {
+        if (isset($parent[SingleKeyModel::class]) || isset($parent[MultiKeyModel::class])) {
             $model_config = $model_class_name::getModelConfig();
         } else {
             throw new InvalidArgumentException('The passed class does not extend MultiKeyModel::class or Model::class');

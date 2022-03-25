@@ -10,33 +10,10 @@ use WebXID\EDMo\DataProcessor;
  *
  * @package WebXID\EDMo\AbstractClass
  */
-abstract class Model extends MultiKeyModel
+abstract class SingleKeyModel extends MultiKeyModel
 {
     /** @var string */
     protected static $pk_column_name = ''; // Primary Key column name
-
-    /**
-     * @deprecated
-     * ToDo: needs to remove $primary_key_id from the method. The action requires refactoring
-     *
-     * @param $primary_key_id
-     */
-    protected function __construct($primary_key_id = null)
-    {
-        parent::__construct();
-
-        if ($primary_key_id === null) {
-            return;
-        }
-
-        $data = static::find([static::$pk_column_name => $primary_key_id], 1, 1);
-
-        if (empty($data[0])) {
-            throw new \RuntimeException(substr(strrchr(static::class, '\\'), 1) . ' was not found');
-        }
-
-        $this->_load($data[0]);
-    }
 
     #region Builders
 
@@ -45,9 +22,14 @@ abstract class Model extends MultiKeyModel
      *
      * @param int|string $primary_key_id
      *
-     * @return Model|static|null
+     * @return static|null
      */
-    public static function get($primary_key_id) {
+    public static function get($primary_key_id)
+    {
+        if (!is_scalar($primary_key_id)) {
+            throw new \InvalidArgumentException('Invalid $primary_key_id');
+        }
+
         return parent::get([static::$pk_column_name => $primary_key_id]);
     }
 
@@ -74,7 +56,7 @@ abstract class Model extends MultiKeyModel
             $update_data[$col_name] = $this->{$col_name};
         }
 
-        if (!$this->is_novice()) {
+        if (!$this->isNovice()) {
             DataProcessor::init(static::class)
                 ->update(static::$pk_column_name . " = :pk_column_name")
                 ->binds([':pk_column_name' => $this->$pk_column_name])
@@ -84,6 +66,8 @@ abstract class Model extends MultiKeyModel
         } else {
             $this->_setProperty(static::$pk_column_name, static::addNew($update_data));
         }
+
+        $this->savedAction();
 
         return $this;
     }
@@ -97,12 +81,11 @@ abstract class Model extends MultiKeyModel
 
         $pk_column_name = static::$pk_column_name;
 
-        DataProcessor::init(static::class)
-            ->delete("{$pk_column_name} = :pk_column_value")
-            ->binds([
-                ':pk_column_value' => $this->$pk_column_name,
-            ])
-            ->execute();
+        static::remove([
+            $pk_column_name => $this->$pk_column_name,
+        ]);
+
+        $this->deletedAction();
     }
 
     #endregion
@@ -110,11 +93,11 @@ abstract class Model extends MultiKeyModel
     #region Is Condition methods
 
     /**
-     * @return bool
+     * @inheritDoc
      */
-    public function is_novice(): bool
+    public function isNovice(): bool
     {
-        return !$this->_getProperty(static::$pk_column_name);
+        return parent::isNovice() || !$this->_getProperty(static::$pk_column_name);
     }
 
     #endregion
@@ -145,6 +128,16 @@ abstract class Model extends MultiKeyModel
         }
 
         return parent::getModelConfig($key);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function getUniqueKeyConditions() : array
+    {
+        return [
+            static::$pk_column_name => $this->{static::$pk_column_name},
+        ];
     }
 
     #endregion

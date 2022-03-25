@@ -275,9 +275,10 @@ print_r([
 ## Models
 
 ### Model with single Primary key
+
 ```php
 // Implement entity class `User`
-class User extends WebXID\EDMo\AbstractClass\Model
+class User extends WebXID\EDMo\AbstractClass\SingleKeyModel
 {
     // Uses for update, insert and delete DB queries
     const TABLE_NAME = 'user';
@@ -377,6 +378,17 @@ class Option extends WebXID\EDMo\AbstractClass\MultiModel
     protected static $writable_properties = [
         // 'writable_property_name' => true,
     ];
+    
+    /**
+    * @inheritDoc
+    */
+    protected function getUniqueKeyConditions(): array
+    {
+        return [
+            'key' => $this->key,
+            'value' => $this->value,
+        ];
+    }
 }
 
 // To get entity list

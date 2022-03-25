@@ -14,7 +14,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testInit()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $this->assertInstanceOf(EDMo\DataProcessor::class, $processor);
     }
@@ -28,7 +28,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testAll()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $this->assertInstanceOf(EDMo\DataProcessor\AbstractSearch::class, $processor->all());
     }
@@ -42,7 +42,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testFind()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $result = $processor->find([
             'id' => [1, 2],
@@ -61,7 +61,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testSearch()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $result = $processor->search(' title LIKE :title ', [':title' => '%fff%']);
 
@@ -77,7 +77,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testAddNew()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $result = $processor->addNew();
 
@@ -93,7 +93,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testUpdate()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $result = $processor->update(" id IN (:id) ")
             ->binds([':id' => [1, 2]]);
@@ -110,7 +110,7 @@ class DataProcessorTest extends AbstractTst
      */
     public function testDelete()
     {
-        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempModel::class);
+        $processor = EDMo\DataProcessor::init(Test\DataProcessor\TempSingleKeyModel::class);
 
         $result = $processor->delete(" id IN (:id) ")
             ->binds([':id' => [1, 2]]);

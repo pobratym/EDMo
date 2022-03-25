@@ -7,7 +7,7 @@ Also, it support multi-connection logic, in case needs to connect to different D
 1. Run `composer require webxid/edmo`
 2. Set DB congif
 ```php
-$default_config [
+$default_config = [
     WebXID\EDMo\DB::DEFAULT_CONNECTION_NAME => [
         'host' => 'localhost',
         'port' => '3306',
@@ -15,10 +15,11 @@ $default_config [
         'pass' => '',
         'db_name' => 'db_name',
         'use_persistent_connection' => false,
+	'charset' => 'utf8mb4',
     ],
 ];
 
-WebXID\EDMo\DB::addConfig($this->default_config);
+WebXID\EDMo\DB::addConfig($default_config);
 ```
 3. Feel free to use the lib 😉
 

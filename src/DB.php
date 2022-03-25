@@ -73,7 +73,7 @@ class DB
                 && isset($connection['pass'])
                 && !empty($connection['db_name'])
                 && isset($connection['use_persistent_connection'])
-                && (!isset($connection['charset']) || empty($connection['charset']))
+                && (!isset($connection['charset']) || !empty($connection['charset']))
             ) {
                 continue;
             }

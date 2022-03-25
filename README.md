@@ -15,6 +15,7 @@ $default_config = [
         'pass' => '',
         'db_name' => 'db_name',
         'use_persistent_connection' => false,
+	'charset' => 'utf8mb4',
     ],
 ];
 

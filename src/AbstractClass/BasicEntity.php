@@ -123,7 +123,7 @@ abstract class BasicEntity extends BasicDataContainer
                 !$object->_isReadableProperty($property_name)
                 && !$object->_isWritableProperty($property_name)
             ) {
-                throw new InvalidArgumentException('Property `' . $property_name . '` cannot be set by method `' . static::class . '::create();`');
+                throw new InvalidArgumentException('Property `' . $property_name . '` cannot be set by method `' . static::class . '::make();`');
             }
         }
 

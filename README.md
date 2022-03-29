@@ -350,7 +350,7 @@ $entity->all()->extract();
 A entity does not have single primary key, it could has multi primary key or no one
 ```php
 // Implement entity class `Option`
-class Option extends WebXID\EDMo\AbstractClass\MultiModel
+class Option extends WebXID\EDMo\AbstractClass\MultiKeyModel
 {
     // Uses for update, insert and delete DB queries
     const TABLE_NAME = 'option';

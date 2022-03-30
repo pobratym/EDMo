@@ -39,6 +39,14 @@ class Delete extends AbstractSave
             throw new \InvalidArgumentException('Invalid $binds');
         }
 
+        foreach ($binds as $placeholder => $value) {
+            if (!is_array($value) || !empty($value)) {
+                continue;
+            }
+
+            throw new \InvalidArgumentException("There is no condition for `{$placeholder}`");
+        }
+
         $this->binds = $binds;
 
         return $this;

@@ -206,10 +206,6 @@ abstract class MultiKeyModel extends BasicEntity
         foreach ($conditions as $column => $value) {
             $placeholder = trim($column, '`');
 
-            if (is_array($value) && !$value) {
-                throw new InvalidArgumentException("There is no condition for `{$placeholder}`");
-            }
-
             $where[] = " {$column} = :{$placeholder} ";
             $binds[':' . $placeholder] = $value;
         }

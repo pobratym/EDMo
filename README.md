@@ -278,6 +278,8 @@ print_r([
 ### Model with single Primary key
 
 ```php
+use WebXID\EDMo\Rules;
+
 // Implement entity class `User`
 class User extends WebXID\EDMo\AbstractClass\SingleKeyModel
 {
@@ -314,6 +316,24 @@ class User extends WebXID\EDMo\AbstractClass\SingleKeyModel
     protected static $writable_properties = [
         // 'writable_property_name' => true,
     ];
+    
+    /**
+    * @inheritDoc
+     */
+    public static function getRules(): Rules
+    {
+        return Rules::make([
+            'first_name' => Rules\Field::string([
+                Rules\Type::itRequired(1),
+                Rules\Type::minLen(1),
+                Rules\Type::maxLen(50),
+            ]),
+            'role_id' => Rules\Field::int([
+                Rules\Type::minLen(1),
+                Rules\Type::maxLen(10),
+            ]),
+        ]);
+    }
 }
 
 $user_id = User::addNew([
@@ -349,6 +369,8 @@ $entity->all()->extract();
 
 A entity does not have single primary key, it could has multi primary key or no one
 ```php
+use WebXID\EDMo\Rules;
+
 // Implement entity class `Option`
 class Option extends WebXID\EDMo\AbstractClass\MultiKeyModel
 {
@@ -389,6 +411,21 @@ class Option extends WebXID\EDMo\AbstractClass\MultiKeyModel
             'key' => $this->key,
             'value' => $this->value,
         ];
+    }
+    
+    /**
+    * @inheritDoc
+     */
+    public static function getRules(): Rules
+    {
+        return Rules::make([
+            'key' => Rules\Field::string([
+                Rules\Type::itRequired(1),
+                Rules\Type::minLen(1),
+                Rules\Type::maxLen(50),
+            ]),
+            'value' => Rules\Field::string(),
+        ]);
     }
 }
 

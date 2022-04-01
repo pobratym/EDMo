@@ -60,9 +60,9 @@ class Rules extends Collection
      *
      * @return static
      */
-    public static function import(array $fields_rules)
+    public static function make(array $fields_rules = [])
     {
-        $object = new static();
+        $object = parent::make();
 
         foreach ($fields_rules as $field_name => $field_rules) {
             if (!static::isEntityValid($field_rules)) {
@@ -101,7 +101,7 @@ class Rules extends Collection
             }
         }
 
-        return static::import($result);
+        return static::make($result);
     }
 
     #endregion

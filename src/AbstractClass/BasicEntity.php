@@ -18,11 +18,28 @@ abstract class BasicEntity extends BasicDataContainer
      *
      * @var array
      */
-    protected static $readable_properties = [];
-    protected static $writable_properties = [];
+    protected static $readable_properties = [
+        // string => string|true|null,
+        // 'property_name' => 'getterMethodName', // returns the method $this->getterMethodName() result
+        // 'property_name' => true, // returns $this->property_name or $this->_data['property_name']
+    ];
+    protected static $writable_properties = [
+        // string => string|true|null,
+        // 'property_name' => 'setterMethodName', // call the method $this->setterMethodName($passed_value)
+        // 'property_name' => true, // sets $this->property_name, if exists or $this->_data['property_name']
+    ];
 
     /** @var bool */
     private $is_novice = true;
+
+    #region Abstract methods
+
+    /**
+     * @return Rules
+     */
+    abstract public static function getRules() : Rules;
+
+    #endregion
 
     #region Magic Methods
 
@@ -302,18 +319,11 @@ abstract class BasicEntity extends BasicDataContainer
         $result = [];
 
         foreach (static::_getReadableProperties() as $name => $settings) {
-            if (static::_isReadableProperty($name)) {
-                $result[$name] = $this->$name;
-            }
+            $result[$name] = $this->$name;
         }
 
         return $result;
     }
-
-    /**
-     * @return Rules
-     */
-    abstract public static function getRules() : Rules;
 
     #endregion
 }

@@ -11,7 +11,11 @@ use LogicException;
  */
 class BasicDataContainer
 {
-    protected static $callable_methods = [];
+    /** @var string[]  */
+    protected static $callable_methods = [
+        // string => string,
+        // collingMethod => existingObjectMethod,
+    ];
 
     protected $_data = [];
 
@@ -160,6 +164,26 @@ class BasicDataContainer
     protected static function _getCallableMethods()
     {
         return static::$callable_methods;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        $propertyes_list = get_object_vars($this);
+
+        unset($propertyes_list['_data']);
+
+        $propertyes_list = $propertyes_list + $this->_data;
+
+        $result = [];
+
+        foreach ($propertyes_list as $name => $tmp) {
+            $result[$name] = $this->$name;
+        }
+
+        return $result;
     }
 
     #endregion

@@ -120,13 +120,16 @@ abstract class Collection extends BasicDataContainer implements Iterator, ArrayA
      */
     public function offsetSet($offset, $object)
     {
-        if (
-            !$object instanceof CollectionItem
-            || !static::isEntityValid($object)
-        ) {
+        if (!$object instanceof CollectionItem) {
             $type = is_object($object) ? get_class($object) : gettype($object);
 
-            throw new InvalidArgumentException("Value must be instance of a Step\Node class, {$type} given");
+            throw new InvalidArgumentException("Class {$type} does not imploment " . CollectionItem::class);
+        }
+
+        if (!static::isEntityValid($object)) {
+            $type = is_object($object) ? get_class($object) : gettype($object);
+
+            throw new InvalidArgumentException("Invalid value instance, given {$type} . Please, check " . static::class . "::isEntityValid()");
         }
 
         if ($offset) {

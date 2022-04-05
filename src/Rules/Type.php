@@ -2,7 +2,7 @@
 
 namespace WebXID\EDMo\Rules;
 
-use WebXID\EDMo\AbstractClass\BasicDataContainer;
+use WebXID\BasicClasses\DataContainer;
 use WebXID\EDMo\AbstractClass\CollectionItem;
 use WebXID\EDMo\Validation;
 use InvalidArgumentException;
@@ -16,7 +16,7 @@ use InvalidArgumentException;
  * @property mixed $value
  * @property string $message
  */
-class Type extends BasicDataContainer  implements CollectionItem
+class Type extends DataContainer  implements CollectionItem
 {
     const BOOL = Validation::DATA_TYPE_BOOL;
     const EMAIL = Validation::DATA_TYPE_EMAIL;

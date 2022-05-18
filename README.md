@@ -21,6 +21,7 @@ $default_config = [
 ];
 
 WebXID\EDMo\DB::addConfig($default_config);
+
 ```
 
 3. Feel free to use the lib 😉

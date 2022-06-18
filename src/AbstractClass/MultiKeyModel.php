@@ -55,13 +55,23 @@ abstract class MultiKeyModel extends BasicEntity
     /**
      * @param int $limit
      * @param int $page
+     * @param array $order_by
+     * [
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_ASC,
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_DESC,
+     *      ...
+     * ]
      *
      * @return static[]
      */
-    public static function all(int $limit = 0, int $page = 1) : array
+    public static function all(int $limit = 0, int $page = 1, array $order_by = []) : array
     {
         $request = DataProcessor::init(static::class)
             ->all();
+
+        foreach ($order_by as $by => $sort) {
+            $request->orderBy($by, $sort);
+        }
 
         if ($limit > 0) {
             $request->limit($limit, $page);
@@ -84,13 +94,23 @@ abstract class MultiKeyModel extends BasicEntity
      * @param array $conditions
      * @param int $limit
      * @param int $page
+     * @param array $order_by
+     * [
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_ASC,
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_DESC,
+     *      ...
+     * ]
      *
      * @return static[]
      */
-    public static function find(array $conditions, int $limit = 100, int $page = 1) : array
+    public static function find(array $conditions, int $limit = 100, int $page = 1, array $order_by = []) : array
     {
         $request = DataProcessor::init(static::class)
             ->find($conditions);
+
+        foreach ($order_by as $by => $sort) {
+            $request->orderBy($by, $sort);
+        }
 
         if ($limit > 0) {
             $request->limit($limit, $page);
@@ -130,13 +150,23 @@ abstract class MultiKeyModel extends BasicEntity
      * @param array $binds
      * @param int $limit
      * @param int $page
+     * @param array $order_by
+     * [
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_ASC,
+     *      column_name => WebXID\EDMo\DB\Build::ORDER_BY_DESC,
+     *      ...
+     * ]
      *
      * @return static[]
      */
-    public static function search(string $where, array $binds = [], int $limit = 100, int $page = 1) : array
+    public static function search(string $where, array $binds = [], int $limit = 100, int $page = 1, array $order_by = []) : array
     {
         $request = DataProcessor::init(static::class)
             ->search($where, $binds);
+
+        foreach ($order_by as $by => $sort) {
+            $request->orderBy($by, $sort);
+        }
 
         if ($limit > 0) {
             $request->limit($limit, $page);

@@ -21,4 +21,16 @@ class Search extends AbstractSearch
 
         return $this;
     }
+
+    /**
+     * @param array $binds
+     *
+     * @return $this
+     */
+    public function binds(array $binds)
+    {
+        $this->db_build->binds($binds);
+
+        return $this;
+    }
 }

@@ -6,6 +6,7 @@ Also, it support multi-connection logic, in case needs to connect to different D
 
 1. Run `composer require webxid/edmo`
 2. Set DB congif
+
 ```php
 $default_config = [
     WebXID\EDMo\DB::DEFAULT_CONNECTION_NAME => [
@@ -20,7 +21,9 @@ $default_config = [
 ];
 
 WebXID\EDMo\DB::addConfig($default_config);
+
 ```
+
 3. Feel free to use the lib 😉
 
 
@@ -164,6 +167,7 @@ $db->commitTransaction();
 ## Query Builder
 
 ### To get DB rows with conditions, passed to `where()` method
+
 ```php
 $rows = WebXID\EDMo\DB\Build::select([
         'column_1',
@@ -191,6 +195,7 @@ $rows = WebXID\EDMo\DB\Build::select([
 ```
 
 ### To get DB rows with conditions, passed to `find()` method
+
 ```php
 $rows = WebXID\EDMo\DB\Build::select([
         'column_1',
@@ -217,6 +222,7 @@ $rows = WebXID\EDMo\DB\Build::select([
 ```
 
 ### Using `where()` and `find()` in a query
+
 ```php
 $rows = WebXID\EDMo\DB\Build::select([
         'colunm_1',
@@ -239,6 +245,7 @@ $rows = WebXID\EDMo\DB\Build::select([
 ## Query Request Data Container 
 
 This class uses to prepare SQL query data for request
+
 ```php
 $request = new WebXID\EDMo\DB\Request();
 
@@ -270,7 +277,6 @@ print_r([
     $request->getRequestHash(),
 ]);
 ```
-
 
 
 ## Models
@@ -368,6 +374,7 @@ $entity->all()->extract();
 ### Model with Multiple Primary key
 
 A entity does not have single primary key, it could has multi primary key or no one
+
 ```php
 use WebXID\EDMo\Rules;
 
@@ -460,12 +467,14 @@ $entity_collection = WebXID\EDMo\DataProcessor::init(Option::class);
 The class works only with classes that extend abstract class `\WebXID\EDMo\AbstractClass\Collection`
 
 ### To init entity collection instance
+
 ```php
 // class `User` has to extend class `\WebXID\EDMo\AbstractClass\Collection`
 $users = WebXID\EDMo\DataProcessor::init(User::class);
 ```
 
 ### Search entity
+
 ```php
 // To get data without any condition
 	$users->all()
@@ -490,11 +499,13 @@ $users->search('first_name != :first_name', [':first_name' => 'Sam'])
 ```
 
 ### Delete entity
+
 ```php
 $users->delete('id = :id', [':id' => 1]); // removes row with id = 1
 ```
 
 ### Add new entity
+
 ```php
 // To add new entity data - can be used only for entities with single Primary key
 $new_user = $users->addNew();
@@ -512,6 +523,7 @@ $last_insert_id = $users->addNew($user_id)
 ```
 
 ### Update entity data
+
 ```php
 $new_user = WebXID\EDMo\DataProcessor::init(User::class)
     ->update('user_id = :id')
@@ -533,6 +545,7 @@ WebXID\EDMo\DataProcessor::init(User::class)
 
 
 ## Data Validation
+
 ```php
 // Init class instance
 $data = Validation::rules();
@@ -540,6 +553,7 @@ $test_value = 'some value';
 ```
 
 ### Check value with string type
+
 ```php
 // Custom string
 $data->string($test_value, 'Wrong value type')
@@ -559,6 +573,7 @@ $data->ipAddress($test_value, 'Invalid IP Address');
 ```
 
 ### Check value with numeric type
+
 ```php
 // Check integer value
 $data->int($test_value, 'Wrong value type')
@@ -577,6 +592,7 @@ $data->float($test_value, 'Wrong value type');
 ```
 
 ### Check is value valid
+
 ```php
 if (!$data->isValid()) {
     print_r($data->getError()); // Print all error messages
